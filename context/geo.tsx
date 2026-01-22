@@ -17,6 +17,7 @@ type GeoContextType = {
   range: number;
   setCenter: (center: [number, number]) => void;
   setRange: (range: number) => void;
+  order: (callback: (a: Restaurant, b: Restaurant) => boolean) => void;
 };
 
 const GeoContext = createContext<GeoContextType>({
@@ -25,6 +26,7 @@ const GeoContext = createContext<GeoContextType>({
   range: 0,
   setCenter: () => {},
   setRange: () => {},
+  order: () => {},
 });
 
 type GeoProviderProps = {
@@ -42,13 +44,19 @@ export function GeoProvider({ children }: GeoProviderProps) {
   useEffect(() => {
     const visibleRestaurants = filterWithinRadius(restaurantes, center, range);
     setFiltrados(visibleRestaurants);
-  }, [center]);
+  }, [center, range]);
+
+  const order = (callback: (a: Restaurant, b: Restaurant) => boolean) => {
+    const sorted = [...filtrados].sort((a, b) => (callback(a, b) ? -1 : 1));
+    setFiltrados(sorted);
+  };
 
   const value: GeoContextType = {
     filtrados,
     center,
     range,
     setCenter,
+    order,
     setRange,
   };
 
