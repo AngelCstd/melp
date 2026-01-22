@@ -37,11 +37,7 @@ const Restaurant = dynamic(
         label?: string;
       }) => (
         <Pointer position={position} icon={customIcon}>
-          {label && (
-            <Tooltip direction="top" offset={[0, 0]}>
-              {label}
-            </Tooltip>
-          )}
+          {label && <Tooltip>{label}</Tooltip>}
         </Pointer>
       );
     }),
