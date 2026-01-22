@@ -32,12 +32,15 @@ export function RestaurantProvider({ children }: RestaurantProviderProps) {
   useEffect(() => {
     const fetchDataRestaurant = async () => {
       try {
-        const response = await fetch("/data_melp.json");
-        if (!response.ok) {
-          throw new Error("Error al cargar data_melp.json");
-        }
-        const data: Restaurant[] = await response.json();
-        console.log(data);
+        // const response = await fetch("/data_melp.json");
+
+        // if (!response.ok) {
+        //   throw new Error("Error al cargar data_melp.json");
+        // }
+
+        // const data: Restaurant[] = await response.json();
+
+        // console.log(data);
         setRestaurantes(data);
       } catch (error: any) {
         console.log(error.message || "Error al verificar la sesion");
@@ -70,7 +73,7 @@ export function useRestaurant(): RestaurantContextType {
   }
   return context;
 }
-const option = [
+const data = [
   {
     id: "851f799f-0852-439e-b9b2-df92c43e7672",
     rating: 1,
