@@ -1,0 +1,69 @@
+"use client";
+
+import { useEffect } from "react";
+import dynamic from "next/dynamic";
+import { useMap, useMapEvents } from "react-leaflet";
+import { useWindowHeight } from "@/hooks/useWindowWidth";
+
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((m) => m.TileLayer),
+  { ssr: false }
+);
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => ({ default: mod.MapContainer })),
+  { ssr: false }
+);
+
+//Este componente lo usare como un componente de logica, donde manejare todos los eventos del mapa para mantener todo en un sololugar
+const MapLogic = ({
+  children,
+  center,
+  setCenter,
+}: {
+  children?: React.ReactNode;
+  center: [number, number];
+  setCenter: (c: [number, number]) => void;
+}) => {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView(center);
+    console.log(map);
+  }, [center, map]);
+
+  useMapEvents({
+    click(e) {
+      console.log(e);
+      setCenter([e.latlng.lat, e.latlng.lng]);
+    },
+  });
+  return (
+    <>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {children}
+    </>
+  );
+};
+
+//Este es el componente donde metere
+const Map = ({
+  children,
+  ...props
+}: {
+  children?: React.ReactNode;
+  center: [number, number];
+  setCenter: (c: [number, number]) => void;
+}) => {
+  const height = useWindowHeight();
+  return (
+    <MapContainer
+      center={props.center}
+      zoom={14}
+      style={{ height: height, width: "100%" }}
+    >
+      <MapLogic {...props}>{children}</MapLogic>
+    </MapContainer>
+  );
+};
+
+export default Map;
