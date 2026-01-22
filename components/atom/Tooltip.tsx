@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const Tooltip = dynamic(() => import("react-leaflet").then((m) => m.Tooltip), {
+const Tooltip = dynamic(() => import("react-leaflet").then((m) => m.Popup), {
   ssr: false,
 });
 

@@ -25,6 +25,17 @@ jobs:
       - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
         uses: ./.github/workflows/setup-node
 
+      - name: Fetch MELP data 📥
+        run: |
+          node -e "
+          import fs from 'fs';
+          const res = await fetch('https://recruiting-datasets.s3.us-east-2.amazonaws.com/data_melp.json');
+          const data = await res.json();
+          fs.mkdirSync('public', { recursive: true });
+          fs.writeFileSync('public/data_melp.json', JSON.stringify(data, null, 2));
+          console.log('✅ data_melp.json descargado');
+          "
+
       - name: Build with Next.js 🏗️
         run: |
           NEXT_DISABLE_TURBOPACK=1 npx next build

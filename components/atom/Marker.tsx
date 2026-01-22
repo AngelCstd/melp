@@ -38,7 +38,7 @@ const Restaurant = dynamic(
       }) => (
         <Pointer position={position} icon={customIcon}>
           {label && (
-            <Tooltip direction="top" offset={[0, -32]} opacity={1} permanent>
+            <Tooltip direction="top" offset={[0, 0]}>
               {label}
             </Tooltip>
           )}
@@ -51,10 +51,7 @@ const Restaurant = dynamic(
 export const MarkerUser = ({ position }: { position: [number, number] }) => (
   <UserMark position={position} />
 );
-export const MarkerRestaurant = ({
-  position,
-  label,
-}: {
+export const MarkerRestaurant = (props: {
   position: [number, number];
   label?: string;
-}) => <Restaurant position={position} label={label} />;
+}) => <Restaurant {...props} />;

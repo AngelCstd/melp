@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useMap, useMapEvents } from "react-leaflet";
 import { useWindowHeight } from "@/hooks/useWindowWidth";
+import { useGeo } from "@/context/geo";
 
 const TileLayer = dynamic(
   () => import("react-leaflet").then((m) => m.TileLayer),
@@ -15,25 +16,16 @@ const MapContainer = dynamic(
 );
 
 //Este componente lo usare como un componente de logica, donde manejare todos los eventos del mapa para mantener todo en un sololugar
-const MapLogic = ({
-  children,
-  center,
-  setCenter,
-}: {
-  children?: React.ReactNode;
-  center: [number, number];
-  setCenter: (c: [number, number]) => void;
-}) => {
+const MapLogic = ({ children }: { children?: React.ReactNode }) => {
   const map = useMap();
+  const { center, setCenter } = useGeo();
 
   useEffect(() => {
     map.setView(center);
-    console.log(map);
   }, [center, map]);
 
   useMapEvents({
     click(e) {
-      console.log(e);
       setCenter([e.latlng.lat, e.latlng.lng]);
     },
   });
@@ -46,18 +38,12 @@ const MapLogic = ({
 };
 
 //Este es el componente donde metere
-const Map = ({
-  children,
-  ...props
-}: {
-  children?: React.ReactNode;
-  center: [number, number];
-  setCenter: (c: [number, number]) => void;
-}) => {
+const Map = ({ children, ...props }: { children?: React.ReactNode }) => {
   const height = useWindowHeight();
+  const { center } = useGeo();
   return (
     <MapContainer
-      center={props.center}
+      center={center}
       zoom={14}
       style={{ height: height, width: "100%" }}
     >
