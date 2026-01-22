@@ -12,9 +12,12 @@ export default function Home() {
   const { loading } = useRestaurant();
 
   return (
-    <div className="min-w-screen min-h-screen bg-zinc-50 dark:bg-black flex flex-col md:flex-row">
+    <div className="min-w-screen min-h-screen bg-zinc-50 dark:bg-black grid md:grid-cols-[auto_1fr] grid-rows-[1fr]">
+      {/* CONTROLS */}
+      <ControlsMenu />
+
       {/* MAPA */}
-      <div className="order-1 md:order-2 flex-1">
+      <div className="relative col-start-1 md:col-start-2 row-start-1">
         <Map>
           {filtrados.map(({ address, name, id }) => (
             <MarkerRestaurant
@@ -35,7 +38,6 @@ export default function Home() {
           </div>
         )}
       </div>
-      <ControlsMenu></ControlsMenu>
     </div>
   );
 }

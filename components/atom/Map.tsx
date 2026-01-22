@@ -45,7 +45,7 @@ const Map = ({ children, ...props }: { children?: React.ReactNode }) => {
     <MapContainer
       center={center}
       zoom={14}
-      style={{ height: height, width: "100%" }}
+      style={{ height: height, width: "100%", zIndex: 0 }}
     >
       <MapLogic {...props}>{children}</MapLogic>
     </MapContainer>

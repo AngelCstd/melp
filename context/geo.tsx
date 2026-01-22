@@ -36,15 +36,15 @@ type GeoProviderProps = {
 export function GeoProvider({ children }: GeoProviderProps) {
   const [filtrados, setFiltrados] = useState<Restaurant[]>([]);
   const [center, setCenter] = useState<[number, number]>([
-    19.437904276995, -99.141877233551,
+    19.435404276995, -99.131177233551,
   ]);
-  const [range, setRange] = useState<number>(100);
+  const [range, setRange] = useState<number>(200);
   const { restaurantes } = useRestaurant();
 
   useEffect(() => {
     const visibleRestaurants = filterWithinRadius(restaurantes, center, range);
     setFiltrados(visibleRestaurants);
-  }, [center, range]);
+  }, [center, range, restaurantes]);
 
   const order = (callback: (a: Restaurant, b: Restaurant) => boolean) => {
     const sorted = [...filtrados].sort((a, b) => (callback(a, b) ? -1 : 1));
